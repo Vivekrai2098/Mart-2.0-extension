@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://live.zwidgets.com/js-sdk/1.2/ZohoEmbededAppSDK.min.js"></script>
+</head>
+
+<body>
+  <h2 id="userInfo">Data Fetch On Server Process.</h2>
+  <div id="recordInfo"></div>
+
+</body>
+<script>
+  /*
+   * Subscribe to the EmbeddedApp onPageLoad event before initializing the widget 
+
+   */
+  //create new records 
+  function callingEveryone() {
+    //coustome veriable fetch 
+    ZOHO.CRM.API.getOrgVariable("Value").then(function (data) {
+
+      document.getElementById("userInfo").innerHTML = JSON.stringify(data, null, 2);;
+
+    })
+
+
+
+    var recordData = {
+      "Company": "Set data under process ",
+      "Last_Name": "version 1.0 "
+    }
+    ZOHO.CRM.API.insertRecord({ Entity: "Leads", APIData: recordData, Trigger: [] }).then(function (data) {
+      console.log(data);
+    }).catch(function (error) {
+      document.getElementById("userInfo").innerHTML = "Something went wrong! " + error.message;
+    });
+  }
+
+
+
+  ZOHO.embeddedApp.on("PageLoad", function (data) {
+    callingEveryone();
+
+
+
+
+
+
+
+
+
+
+  });
+
+
+  /*
+   * initialize the widget.
+   */
+  ZOHO.embeddedApp.init();
+
+
+
+
+</script>
+
+</html>
